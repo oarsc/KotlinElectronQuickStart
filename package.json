@@ -1,0 +1,16 @@
+{
+  "name": "electron-kotlin-app",
+  "version": "1.0.0",
+  "main": "build/dist/electron/app-backend.js",
+  "private": true,
+  "scripts": {
+    "start": "electron .",
+    "build:prod": "./gradlew clean bundleFrontend bundleBackend",
+    "build": "./gradlew bundleDevelopmentFrontend bundleDevelopmentBackend",
+    "clean": "./gradlew clean",
+    "dev": "./gradlew jsBrowserDevelopmentWebpack && electron ."
+  },
+  "devDependencies": {
+    "electron": "^41.7.1"
+  }
+}
