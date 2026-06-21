@@ -1,8 +1,6 @@
 package org.oar.electron.server
 
 import org.oar.electron.context.Channels.CLOSE
-import org.oar.electron.context.Channels.SET_IGNORE_MOUSE_EVENTS
-import org.oar.electron.jsModels.IgnoreMouseEventsOptions
 import org.oar.electron.server.model.BrowserWindow
 import org.oar.electron.server.model.BrowserWindowOptions
 import org.oar.electron.server.model.Electron.BrowserWindow
@@ -49,13 +47,6 @@ fun main() {
     }
 
     ipcMain.on(CLOSE) { event, _ ->
-        BrowserWindow.fromWebContents(event.sender)?.destroy()
-    }
-
-    @Suppress("UNCHECKED_CAST_TO_EXTERNAL_INTERFACE")
-    ipcMain.on(SET_IGNORE_MOUSE_EVENTS) { event, args ->
-        val ignore = args[0] as Boolean
-        val options = args.getOrNull(1) as? IgnoreMouseEventsOptions
-        BrowserWindow.fromWebContents(event.sender)?.setIgnoreMouseEvents(ignore, options)
+        BrowserWindow.fromWebContents(event.sender)?.close()
     }
 }

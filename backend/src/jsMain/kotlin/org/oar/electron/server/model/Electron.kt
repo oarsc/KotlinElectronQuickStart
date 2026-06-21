@@ -11,6 +11,7 @@ object Electron {
     val app get() = ElectronNative.app
     val ipcMain get() = ElectronNative.ipcMain
     val screen get() = ElectronNative.screen
+    val globalShortcut get() = ElectronNative.globalShortcut
     val BrowserWindow = StaticBrowserWindow(ElectronNative.BrowserWindow)
 }
 
@@ -35,6 +36,7 @@ private external object ElectronNative {
     val app: ElectronApp
     val ipcMain: IpcMain
     val screen: Screen
+    val globalShortcut: GlobalShortcut
     val BrowserWindow: dynamic
 }
 
@@ -60,13 +62,23 @@ external object IpcMainEvent {
     var returnValue: Any?
 }
 
+external object GlobalShortcut {
+    fun isRegistered(accelerator: String): Boolean
+    fun register(accelerator: String, callback: () -> Unit): Boolean
+    fun registerAll(accelerators: Array<String>, callback: () -> Unit)
+    fun unregister(accelerator: String)
+    fun unregisterAll()
+}
+
 external class BrowserWindow private constructor(options: BrowserWindowOptions) {
     val webContents: WebContents
 
     fun destroy()
+    fun close()
     fun show()
     fun hide()
     fun minimize()
+    fun isVisible(): Boolean
     fun loadURL(url: String)
     fun loadFile(url: String)
     fun on(event: String, listener: (dynamic) -> Unit): BrowserWindow
